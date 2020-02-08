@@ -7,6 +7,7 @@ const foreColor : string = "#9c27b0"
 const backColor : string = "#bdbdbd"
 const delay : number = 20
 const nodes : number = 5
+const lines : number = 2
 
 class State {
 
@@ -115,7 +116,7 @@ class DrawingUtil {
     static drawHorizontalLinePuncher(context : CanvasRenderingContext2D, i : number, scale : number, w : number, size : number) {
         const sf : number = ScaleUtil.sinify(scale)
         const sfi : number = ScaleUtil.divideScale(sf, i, lines)
-        const sj : number = 1 - 2 * j
+        const sj : number = 1 - 2 * i
         const sx : number = w * i
         const x : number = (w / 2) * sfi * sj
         context.save()
@@ -135,5 +136,46 @@ class DrawingUtil {
         context.translate(0, gap * (i + 1))
         DrawingUtil.drawHorizontalLinePuncher(context, i, scale, w, size)
         context.restore()
+    }
+}
+class HLPNode {
+
+    state : State = new State()
+    next : HLPNode
+    prev : HLPNode
+
+    constructor(private i : number) {
+        this.addNeighbor()
+    }
+
+    addNeighbor() {
+        if (this.i < nodes - 1) {
+            this.next = new HLPNode(this.i + 1)
+            this.next.prev = this
+        }
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        DrawingUtil.drawHLPNode(context, this.i, this.state.scale)
+    }
+
+    update(cb : Function) {
+        this.state.update(cb)
+    }
+
+    startUpdating(cb : Function) {
+        this.state.startUpdating(cb)
+    }
+
+    getNext(dir : number, cb : Function) {
+        var curr : HLPNode = this.prev
+        if (dir == 1) {
+            curr = this.next
+        }
+        if (curr) {
+            return curr
+        }
+        cb()
+        return this
     }
 }
