@@ -1,13 +1,13 @@
 const w : number = window.innerWidth
 const h : number = window.innerHeight
-const scGap : number = 0.02
+const lines : number = 2
+const scGap : number = 0.02 / lines
 const strokeFactor : number = 90
 const sizeFactor : number = 2.9
 const foreColor : string = "#9c27b0"
 const backColor : string = "#bdbdbd"
-const delay : number = 20
+const delay : number = 30
 const nodes : number = 5
-const lines : number = 2
 
 class State {
 
@@ -138,7 +138,9 @@ class DrawingUtil {
         context.strokeStyle = foreColor
         context.save()
         context.translate(0, gap * (i + 1))
-        DrawingUtil.drawHorizontalLinePuncher(context, i, scale, w, size)
+        for (var j = 0; j < lines; j++) {
+            DrawingUtil.drawHorizontalLinePuncher(context, j, scale, w, size)
+        }
         context.restore()
     }
 }
