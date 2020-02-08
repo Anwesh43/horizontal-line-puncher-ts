@@ -202,3 +202,26 @@ class HorizontalLinePuncher {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    hlp : HorizontalLinePuncher = new HorizontalLinePuncher()
+    
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.hlp.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.hlp.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.hlp.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
