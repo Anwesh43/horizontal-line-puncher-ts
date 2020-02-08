@@ -1,0 +1,9 @@
+const w : number = window.innerWidth
+const h : number = window.innerHeight
+const scGap : number = 0.02
+const strokeFactor : number = 90
+const sizeFactor : number = 2.9
+const foreColor : string = "#9c27b0"
+const backColor : string = "#bdbdbd"
+const delay : number = 20
+const nodes : number = 5
