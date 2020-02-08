@@ -82,3 +82,23 @@ class Stage {
         stage.handleTap()
     }
 }
+
+class ScaleUtil {
+
+    static maxScale(scale : number, i : number, n : number) : number {
+        return Math.max(0, scale - i / n)
+    }
+
+    static divideScale(scale : number, i : number, n : number) : number {
+        return Math.min(1 / n, ScaleUtil.maxScale(scale, i, n)) * n
+    }
+
+    static sinify(scale : number) : number {
+        return Math.sin(Math.PI * scale)
+    }
+
+    static cosify(scale : number) : number {
+        const sf : number = ScaleUtil.divideScale(scale, 0, 2)
+        return Math.sin(sf * Math.PI / 2)
+    }
+}
